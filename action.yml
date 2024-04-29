@@ -1,0 +1,33 @@
+name: "Github Pull Request Retest"
+description: 'Re-run failed GitHub Workflow runs on PRs by commenting "/retest".'
+author: "yuluo"
+branding:
+  color: blue
+  icon: activity
+inputs:
+  token:
+    description: >
+      GitHub token used to create and remove comments. By default, this uses the
+      repository token provided by GitHub Actions. You can customize the user by
+      replacing this token with a user token which has write-access to your
+      repository. Note that the token will be accessible to all repository
+      collaborators.
+    default: ${{ github.token }}
+  comment-id:
+    description: >-
+      ID of comment for response
+    required: true
+    type: number
+  pr-url:
+    description: >-
+      URL to fetch PR information
+    required: true
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.token }}
+    - ${{ inputs.comment-id }}
+    - ${{ inputs.pr-url }}
+    - ${{ inputs.args }}
